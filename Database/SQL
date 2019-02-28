@@ -1,0 +1,88 @@
+CREATE TABLE entry_t (
+  student_id INT(7), 
+  nfc_id VARCHAR(10), 
+  PRIMARY KEY (student_id, nfc_id)
+);
+ 
+CREATE TABLE student_t (
+  student_id INT(7) PRIMARY KEY,
+  nfc_id VARCHAR(10),
+  f_name VARCHAR(20),
+  m_name VARCHAR(20),
+  l_name VARCHAR(20),
+  CONSTRAINT student_nfc_fk FOREIGN KEY (student_id, nfc_id) REFERENCES entry_t (student_id, nfc_id)
+);
+
+CREATE TABLE attendance_t (
+  student_id INT(7), 
+  nfc_id VARCHAR(10), 
+  present INT(3),
+  late INT(3),
+  absent INT(3),
+  total_classes INT(3),
+  CONSTRAINT attendance_student_fk FOREIGN KEY (student_id, nfc_id) REFERENCES entry_t (student_id, nfc_id)
+); 
+
+create table module_t (
+  module_id VARCHAR(10) PRIMARY KEY,
+  module_name VARCHAR(30),
+  course_id VARCHAR(20)
+);
+
+create table class_t (
+  class_id VARCHAR(10),
+  student_id INT(7),
+  module_id varchar(10),
+  lecturer_id INT(7),
+  day INT(1),
+  start_time TIME,
+  end_time TIME,
+  room VARCHAR(8),
+  PRIMARY KEY (class_id, student_id), 
+  CONSTRAINT class_module_fk FOREIGN KEY (module_id) REFERENCES module_t (module_id), 
+  CONSTRAINT class_student_fk FOREIGN KEY (student_id) REFERENCES student_t (student_id)
+);
+
+
+
+
+
+//old sql statements//
+
+CREATE TABLE studentsT (
+  student_id INT(7) NOT NULL,
+  f_name VARCHAR(20),
+  m_name VARCHAR(20),
+  l_name VARCHAR(20),
+  nfc_id INT NOT NULL,
+  course VARCHAR(50)
+  PRIMARY KEY (student_id, nfc_id)
+);
+
+CREATE TABLE entryT (
+  student_id INT(7),
+  nfc_id INT,
+  scan_time TIME,
+  room VARCHAR(8),
+  CONSTRAINT entry_fk FOREIGN KEY (student_id, nfc_id) REFERENCES studentsT (student_id, nfc_id)
+);
+
+CREATE TABLE moduleT (
+  module_id VARCHAR(10) PRIMARY KEY NOT NULL,
+  module_name VARCHAR(30),
+  course_id VARCHAR(20)
+);
+
+CREATE TABLE attendanceT (
+  student_id INT(7),
+  present INT(3),
+  late INT(3),
+  absent INT(3),
+  total_classes INT(3),
+  CONSTRAINT attendance_fk FOREIGN KEY (student_id) REFERENCES studentsT (student_id)
+);
+
+
+
+
+

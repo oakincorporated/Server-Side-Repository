@@ -1,0 +1,190 @@
+-- phpMyAdmin SQL Dump
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Feb 25, 2019 at 03:34 PM
+-- Server version: 10.1.30-MariaDB
+-- PHP Version: 7.2.1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `realworldproject`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attendance_t`
+--
+
+CREATE TABLE `attendance_t` (
+  `StudentID` int(10) NOT NULL,
+  `NFC_ID` varchar(20) NOT NULL,
+  `Present` int(2) DEFAULT NULL,
+  `Late` int(2) DEFAULT NULL,
+  `Absent` int(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `class_t`
+--
+
+CREATE TABLE `class_t` (
+  `ClassID` int(11) NOT NULL,
+  `StudentID` int(11) NOT NULL,
+  `ModuleID` int(11) NOT NULL,
+  `Lecturer` int(11) NOT NULL,
+  `Day` int(1) DEFAULT NULL,
+  `StartTime` time DEFAULT NULL,
+  `EndTime` time DEFAULT NULL,
+  `Room` varchar(8) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `entery_t`
+--
+
+CREATE TABLE `entery_t` (
+  `StudentID` int(10) NOT NULL,
+  `NFCID` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `entery_t`
+--
+
+INSERT INTO `entery_t` (`StudentID`, `NFCID`) VALUES
+(7649394, '56:F9:P0:32:H6:T4'),
+(7735596, '05:E5:G7:91:F6:O9:67'),
+(7852973, 'I8:90:H7;Y6:45:D2:G5'),
+(8746354, '9I:H4:0K:NO:H8:7T:G4');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `module_t`
+--
+
+CREATE TABLE `module_t` (
+  `ModuleID` varchar(10) NOT NULL,
+  `ModuleName` varchar(20) NOT NULL,
+  `CourseID` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `studentdata`
+--
+
+CREATE TABLE `studentdata` (
+  `StudentID` int(10) NOT NULL,
+  `NFCID` varchar(20) NOT NULL,
+  `F_Name` varchar(20) NOT NULL,
+  `M_Name` varchar(20) DEFAULT NULL,
+  `L_Name` varchar(20) NOT NULL,
+  `Username` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `studentdata`
+--
+
+INSERT INTO `studentdata` (`StudentID`, `NFCID`, `F_Name`, `M_Name`, `L_Name`, `Username`) VALUES
+(7649394, '56:F9:P0:32:H6:T4', 'Ieuan', NULL, 'Harambe', NULL),
+(7735596, '05:E5:G7:91:F6:O9:67', 'Elliot', 'Mathew', 'Hawkins', NULL),
+(7852973, 'I8:90:H7;Y6:45:D2:G5', 'Jenifer', 'Sally', 'Kelly', NULL),
+(8746354, '9I:H4:0K:NO:H8:7T:G4', 'Georgia', 'Daisy', 'Johnson', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `userlogindata`
+--
+
+CREATE TABLE `userlogindata` (
+  `Username` varchar(20) NOT NULL,
+  `Password` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `userlogindata`
+--
+
+INSERT INTO `userlogindata` (`Username`, `Password`) VALUES
+('EHawkins', 'Password'),
+('GJohnson', 'Password45'),
+('IHarambe', 'Password123'),
+('JKelly', 'Password1');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `attendance_t`
+--
+ALTER TABLE `attendance_t`
+  ADD PRIMARY KEY (`StudentID`);
+
+--
+-- Indexes for table `entery_t`
+--
+ALTER TABLE `entery_t`
+  ADD PRIMARY KEY (`NFCID`),
+  ADD KEY `entery_t_ibfk_1` (`StudentID`);
+
+--
+-- Indexes for table `module_t`
+--
+ALTER TABLE `module_t`
+  ADD PRIMARY KEY (`ModuleID`);
+
+--
+-- Indexes for table `studentdata`
+--
+ALTER TABLE `studentdata`
+  ADD PRIMARY KEY (`StudentID`),
+  ADD KEY `UsernameFK` (`Username`);
+
+--
+-- Indexes for table `userlogindata`
+--
+ALTER TABLE `userlogindata`
+  ADD PRIMARY KEY (`Username`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `entery_t`
+--
+ALTER TABLE `entery_t`
+  ADD CONSTRAINT `entery_t_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `studentdata` (`StudentID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `studentdata`
+--
+ALTER TABLE `studentdata`
+  ADD CONSTRAINT `UsernameFK` FOREIGN KEY (`Username`) REFERENCES `userlogindata` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
