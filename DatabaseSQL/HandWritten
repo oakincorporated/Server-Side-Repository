@@ -43,12 +43,13 @@ create table class_t (
   CONSTRAINT class_student_fk FOREIGN KEY (student_id) REFERENCES student_t (student_id)
 );
 
-
-
+CREATE TABLE user_login_data (
+username VARCHAR(20), 
+password VARCHAR(20)
+);
 
 
 //old sql statements//
-
 CREATE TABLE studentsT (
   student_id INT(7) NOT NULL,
   f_name VARCHAR(20),
