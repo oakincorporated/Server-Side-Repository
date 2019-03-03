@@ -1,19 +1,20 @@
 <?php
 
-$username = ""
-$attended = 0
-$late = 0
-$absent = 0
-$total_classes = 0
+$servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbName = "realworldproject";
 
-$conn = new sqli($username, $attended, $late, $absent, $total_classes); //Creates the connection
+  // Make the connection
+  $conn = new mysqli($servername, $username, $password, $dbName);
 
-if (!$conn)
-{
-	die("Connection fail.".mysqli_connect_error()); //Assess the connection
-}
+  // Check the connection
+  if (!$conn)
+  {
+    die("Connection fail.". mysqli_connect_error());
+  }
 
-$sql = "SELECT username, attended, late, absent, total classes FROM attendancedata";
+$sql = "SELECT username, attended, late, absent, total_classes FROM attendancedata";
 $result = mysqli_query($conn, $sql);
 
 ?>
