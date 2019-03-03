@@ -15,17 +15,21 @@
       {
         die("Connection fail.". mysqli_connect_error());
       }
+    
       
     if isset($_GET['nfcid'])
     {
        $nfc_id = $_GET['nfcid'];
-    }
+    }else{
+        die();
+      }
     
     if isset($_GET['studid'])
     {
       $student_id = $_GET['studid'];
-    }
-    
+    }else{
+        die();
+      }    
       
       
       $sql = 'SELECT NFCID FROM studentdata'; 
