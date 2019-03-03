@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<html>
+  <head>
+  </head>
   <body>
     <?php
 
@@ -13,8 +16,17 @@
         die("Connection fail.". mysqli_connect_error());
       }
       
-      $nfc_id = $_GET['nfcid'];
+    if isset($_GET['nfcid'])
+    {
+       $nfc_id = $_GET['nfcid'];
+    }
+    
+    if isset($_GET['studid'])
+    {
       $student_id = $_GET['studid'];
+    }
+    
+      
       
       $sql = 'SELECT NFCID FROM studentdata'; 
       $result = mysqli_query($conn, $sql);
