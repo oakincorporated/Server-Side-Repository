@@ -10,7 +10,8 @@ CREATE TABLE student_t (
   f_name VARCHAR(20),
   m_name VARCHAR(20),
   l_name VARCHAR(20),
-  CONSTRAINT student_nfc_fk FOREIGN KEY (student_id, nfc_id) REFERENCES entry_t (student_id, nfc_id)
+  CONSTRAINT student_nfc_fk FOREIGN KEY (student_id, nfc_id) REFERENCES entry_t (student_id, nfc_id), 
+  CONSTRAINT student_data_fk FOREIGN KEY (student_id) REFERENCES user_login_data (student_id)
 );
 
 CREATE TABLE attendance_t (
@@ -44,7 +45,7 @@ create table class_t (
 );
 
 CREATE TABLE user_login_data (
-username VARCHAR(20), 
+username VARCHAR(20) PRIMARY KEY, 
 password VARCHAR(20)
 );
 
