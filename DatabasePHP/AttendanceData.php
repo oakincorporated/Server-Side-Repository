@@ -14,7 +14,7 @@ $servername = "localhost";
     die("Connection fail.". mysqli_connect_error());
   }
 
-$sql = "SELECT username, attended, late, absent, total_classes FROM attendancedata";
+$sql = "SELECT StudentID, Present, Late, Absent FROM attendance_t";
 $result = mysqli_query($conn, $sql);
 
 ?>
@@ -27,8 +27,8 @@ $result = mysqli_query($conn, $sql);
     {
 		while($row = mysqli_fetch_assoc($result)) //Information for every row will be shown
 		{
-			echo "|username:".$row["username"]."|attended:".$row["attended"]."|late:".$row["late"]."|absent:".$row["absent"]."|total_classes".$row["total_classes].";";
+			echo "|StudentID:".$row["StudentID"]."|Present:".$row["present"]."|Late:".$row["Late"]."|Absent:".$row["absent"].";";
 		}
 	} ?>
 </body>
-</html>	
+</html>
