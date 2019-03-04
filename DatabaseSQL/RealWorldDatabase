@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2019 at 06:06 PM
+-- Generation Time: Mar 04, 2019 at 01:22 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -36,6 +36,16 @@ CREATE TABLE `attendance_t` (
   `Absent` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `attendance_t`
+--
+
+INSERT INTO `attendance_t` (`Student_ID`, `NFC_ID`, `Present`, `Late`, `Absent`) VALUES
+(7649394, '56:F9:P0:32:H6:T4:G7', 0, 0, 0),
+(7735596, '05:E5:G7:91:F6:O9:67', 0, 0, 0),
+(7852973, 'I8:90:H6:Y6:45:D2:G7', 0, 0, 0),
+(8746354, '9I:H4:0K:NO:H8:7T:G4', 0, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -45,13 +55,27 @@ CREATE TABLE `attendance_t` (
 CREATE TABLE `class_t` (
   `Class_ID` int(11) NOT NULL,
   `Student_ID` int(11) NOT NULL,
-  `Module_ID` int(11) NOT NULL,
+  `Module_ID` varchar(11) NOT NULL,
   `Lecturer_ID` int(11) NOT NULL,
   `Day` int(1) DEFAULT NULL,
   `Start_Time` time DEFAULT NULL,
   `End_Time` time DEFAULT NULL,
   `Room` varchar(8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `class_t`
+--
+
+INSERT INTO `class_t` (`Class_ID`, `Student_ID`, `Module_ID`, `Lecturer_ID`, `Day`, `Start_Time`, `End_Time`, `Room`) VALUES
+(4, 7735596, '206CDE', 800, 1, '14:00:00', '16:00:00', 'EC2-02'),
+(6, 7735596, '203CDE', 560, 2, '14:00:00', '16:00:00', 'ECG-14'),
+(7, 7649394, '405FG', 670, 1, '10:00:00', '12:00:00', 'ECG-10'),
+(2, 7852973, '283DF', 330, 2, '12:00:00', '14:00:00', 'FG2-13'),
+(3, 7852973, '276CF', 670, 4, '13:00:00', '15:00:00', 'FG1-12'),
+(9, 7649394, '254HN', 420, 3, '09:00:00', '11:00:00', 'JH1-02'),
+(11, 8746354, '202FD', 550, 5, '16:00:00', '18:00:00', 'JH1-07'),
+(13, 8746354, '205SC', 580, 2, '15:00:00', '17:00:00', 'JH3-05');
 
 -- --------------------------------------------------------
 
@@ -69,7 +93,7 @@ CREATE TABLE `entry_t` (
 --
 
 INSERT INTO `entry_t` (`Student_ID`, `NFC_ID`) VALUES
-(7649394, '56:F9:P0:32:H6:T4'),
+(7649394, '56:F9:P0:32:H6:T4:G7'),
 (7735596, '05:E5:G7:91:F6:O9:67'),
 (7852973, 'I8:90:H7;Y6:45:D2:G5'),
 (8746354, '9I:H4:0K:NO:H8:7T:G4');
@@ -82,9 +106,22 @@ INSERT INTO `entry_t` (`Student_ID`, `NFC_ID`) VALUES
 
 CREATE TABLE `module_t` (
   `Module_ID` varchar(10) NOT NULL,
-  `Module_Name` varchar(20) NOT NULL,
-  `Course_ID` varchar(20) NOT NULL
+  `Module_Name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `module_t`
+--
+
+INSERT INTO `module_t` (`Module_ID`, `Module_Name`) VALUES
+('202FD', 'Creative Writing'),
+('203CDE', 'Usability'),
+('205SC', 'Article Writing'),
+('206CDE', 'Real World Project'),
+('254HN', 'Mechanics'),
+('276CF', 'Design'),
+('283DF', '2D/3D'),
+('405FG', 'Statistics');
 
 -- --------------------------------------------------------
 
@@ -98,18 +135,19 @@ CREATE TABLE `student_t` (
   `F_Name` varchar(20) NOT NULL,
   `M_Name` varchar(20) DEFAULT NULL,
   `L_Name` varchar(20) NOT NULL,
-  `Username` varchar(20) DEFAULT NULL
+  `Username` varchar(20) DEFAULT NULL,
+  `Course` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `student_t`
 --
 
-INSERT INTO `student_t` (`Student_ID`, `NFC_ID`, `F_Name`, `M_Name`, `L_Name`, `Username`) VALUES
-(7649394, '56:F9:P0:32:H6:T4:G7', 'Ieuan', NULL, 'Harambe', NULL),
-(7735596, '05:E5:G7:91:F6:O9:67', 'Elliot', 'Mathew', 'Hawkins', NULL),
-(7852973, 'I8:90:H6:Y6:45:D2:G7', 'Jenifer', 'Sally', 'Kelly', NULL),
-(8746354, '9I:H4:0K:NO:H8:7T:G4', 'Georgia', 'Daisy', 'Johnson', NULL);
+INSERT INTO `student_t` (`Student_ID`, `NFC_ID`, `F_Name`, `M_Name`, `L_Name`, `Username`, `Course`) VALUES
+(7649394, '56:F9:P0:32:H6:T4:G7', 'Ieuan', NULL, 'Harambe', 'IHarambe', 'Maths'),
+(7735596, '05:E5:G7:91:F6:O9:67', 'Elliot', 'Mathew', 'Hawkins', 'EHawkins', 'Computing'),
+(7852973, 'I8:90:H6:Y6:45:D2:G7', 'Jenifer', 'Sally', 'Kelly', 'JKelly', 'Textiles'),
+(8746354, '9I:H4:0K:NO:H8:7T:G4', 'Georgia', 'Daisy', 'Johnson', 'GJohnson', 'English');
 
 -- --------------------------------------------------------
 
