@@ -32,8 +32,8 @@
   
   $updateSql = ("UPDATE studentdata SET NFCID = %s WHERE StudentID = %s");
   $updateSql -> bind_param("ii", $_POST[newNFC], $_POST[currSID]);
-  $currSID -> execute();
-  $currSID -> close();
+  $updateSql -> execute();
+  $updateSql -> close();
   
   $currID -> execute();
   $currID -> close();
