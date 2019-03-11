@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2019 at 01:22 AM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.1
+-- Generation Time: Mar 11, 2019 at 01:44 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -126,6 +126,26 @@ INSERT INTO `module_t` (`Module_ID`, `Module_Name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `nfc_empty_tags`
+--
+
+CREATE TABLE `nfc_empty_tags` (
+  `position` int(1) NOT NULL,
+  `NFCID` varchar(20) NOT NULL,
+  `used` int(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `nfc_empty_tags`
+--
+
+INSERT INTO `nfc_empty_tags` (`position`, `NFCID`, `used`) VALUES
+(1, '00:00:00:00:00:00:00', 0),
+(2, '11:11:11:11:11:11:11', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student_t`
 --
 
@@ -214,7 +234,7 @@ ALTER TABLE `user_login_data`
 -- Constraints for table `entry_t`
 --
 ALTER TABLE `entry_t`
-  ADD CONSTRAINT `entry_t_ibfk_1` FOREIGN KEY (`Student_ID`) REFERENCES `student_t` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `entry_t_ibfk_1` FOREIGN KEY (`Student_ID`) REFERENCES `student_t` (`Student_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `student_t`
