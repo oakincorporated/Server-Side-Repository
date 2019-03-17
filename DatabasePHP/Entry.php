@@ -8,29 +8,35 @@
       $dbname = "realworldproject";
 	  
       $conn = new mysqli($servername, $username, $password, $dbname);
-      if (!$conn)
-      {
+      if (!$conn){
         die("Connection fail.". mysqli_connect_error());
       }
+	  else{
+		  echo'Connected to Database<br>';
+		  echo'<br>';
+	  }
       
 	  date_default_timezone_set('Europe/London');	#TIME STAMPS
       $scanTime = date("H:i:s");
-	  echo($scanTime . "<br>");
+	  echo('Current Time:  ' . $scanTime . "<br>");
       $scanDate = date("D jS F Y");
+	  echo('Date:  ' . $scanDate . "<br>");
+	  echo'<br>';
 	  
-	  $currentday = date("N");
-	  # echo($currentday . "<br>");
-      echo($scanDate . "<br>");
+	  #$currentTime = date('His'); # real timestamp
+	  #$currentday = date("N");
 	  
+	  $currentTime = 100000;		# demo timestamps
+	  $currentday = 1;
 	  
-      $nfc_id = $_GET['nfcid'];		# Parameters
-      echo $nfc_id;
-      echo "<br>";
-      $student_id = $_GET['studid'];
-      echo $student_id;
-      echo "<br>";
-      
+	  $timestamp = strtotime($currentTime);
+	 
+      $nfc_id = mysqli_real_escape_string($conn, $_GET['nfcid']);		# Parameters
+      echo 'NFC ID:  ' . $nfc_id . '<br>';
+      $student_id = mysqli_real_escape_string($conn, $_GET['studid']);
 	  
+      echo 'Student ID:  ' . $student_id . '<br>';
+	  echo '<br>';
 	  
       $sql = 'SELECT NFC_ID FROM student_t'; 	# SQL queries for NFC_ID
       $result = mysqli_query($conn, $sql);
@@ -41,23 +47,21 @@
         if($currentNFCFound == $nfc_id){
           $nfcWasFound = true;
           break;
-        }else{
-          $nfcWasFound = false;
+        }
+		else{
+			$nfcWasFound = false;
         }
       
       }
       
       if($nfcWasFound){
-        echo 'you are in the database <br>';
-		
-		
-		
+        echo 'You are in the Database <br>';
 		$sql = 'SELECT Student_ID FROM student_t'; # check for the student id
 		$result = mysqli_query($conn, $sql);
 		
 		while($row = mysqli_fetch_assoc($result)){
-			$studentID = $row['Student_ID'];
-			if($student_id == $studentID){
+			$studentrow = $row['Student_ID'];
+			if($studentrow == $student_id){
 				$isCorrect = true;
 				break;
 			}
@@ -68,14 +72,14 @@
 		}
 		
 		if ($isCorrect){
-			echo"you student ID is correct <br>";
-			$sql = 'SELECT Day FROM class_t'; # check if the student has a lesson on this day
+			echo"Your Student ID is correct <br>";
+			$sql = "SELECT Day FROM class_t WHERE Student_ID = '$student_id'"; 	# check if the student has a lesson on this day
 			$result = mysqli_query($conn, $sql);
 			
 			while($row = mysqli_fetch_assoc($result)){
-				$classDay = $row['Day'];
+				$classrow = $row['Day'];
 			
-				if ($classDay == $currentday){
+				if ($classrow == $currentday){
 					$todayclass = true;
 					break;
 			}
@@ -83,22 +87,65 @@
 					$todayclass = false; 
 				}
 			}
-			}
-			if($todayclass){
-				echo'you have a class today <br>';
-				$sql = 'UPDATE attendance_t SET Present = Present + 1';
-				mysqli_query($conn, $sql);
-				echo'you attendance has been updated';
+		}
+		if($todayclass){
+			echo'You have a class today <br>';
+			$sql = "SELECT Start_Time FROM class_t WHERE Student_ID = '$student_id' AND Day = '$currentday'"; # check for when the class is on the day
+			$result = mysqli_query($conn, $sql);
+							
+			while($row = mysqli_fetch_assoc($result)){#125120
+				$classTime = $row['Start_Time'];
+				$startTime = strtotime($classTime);
 				
+
+				if ($timestamp <= ($startTime + 900) && $timestamp >= ($startTime - 900)){	# check if they are on time
+					$onTime = true;
+				}
+					
+				else{
+					$onTime = false;
+				}
 			}
-			else{
-				echo'you dont have a class today';
+		}
+		else{
+			exit('No classes today');
+			
+		}
+			
+			if ($onTime){	# if on time add 1 to present on sql database
+				echo'You are on time <br>';
+		
+				$sql = "UPDATE attendance_t SET Present = Present + 1 WHERE Student_ID = '$student_id'";
+			 	mysqli_query($conn, $sql);
+				exit('You attendance has been updated');
+			}	
+				
+			else{		# if not on time check if they are late
+				$sql = "SELECT End_Time FROM class_t WHERE Student_ID = '$student_id' AND Day = '$currentday'";
+				$result = mysqli_query($conn, $sql);
+				
+				while($row = mysqli_fetch_assoc($result)){
+					$time = $row['End_Time'];
+					$endTime = strtotime($time);
+					
+						if($timestamp >= ($startTime + 900) & $timestamp <= $endTime){
+							$isLate = true;
+					}
+						else{
+							$isLate = false;
+					}
+				}
 			}
-	  
-	  
-	  
-      # add 1 fo the attendance section (present, late, absent)
-      # 
+			if($isLate){
+				echo'You are late <br>';
+				$sql = "UPDATE attendance_t SET Late = Late + 1 WHERE Student_ID = '$student_id'";
+				mysqli_query($conn, $sql);
+				exit('Your attendance has been updated');				
+			}
+			
+      # PARAMETERS - ?nfcid=56:F9:P0:32:H6:T4:G7&studid=7649394
     ?>
   </body>
 </html>
+
+
