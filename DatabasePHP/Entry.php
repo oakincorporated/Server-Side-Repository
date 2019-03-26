@@ -26,7 +26,8 @@
 	  #$currentTime = date('His'); # real timestamp
 	  #$currentday = date("N");
 	  
-	  $currentTime = 100000;		# demo timestamps
+	  $currentTime = 103000;		# demo timestamps
+	  
 	  $currentday = 1;
 	  
 	  $timestamp = strtotime($currentTime);
@@ -90,15 +91,15 @@
 		}
 		if($todayclass){
 			echo'You have a class today <br>';
-			$sql = "SELECT Start_Time FROM class_t WHERE Student_ID = '$student_id' AND Day = '$currentday'"; # check for when the class is on the day
+			$sql = "SELECT Start_Time FROM class_t WHERE Student_ID = '$student_id' AND Day = '$currentday' AND Start_Time >= '$timestamp' + 001500 AND End_Time <= '$timestamp'"; # check for when the class is on the day
 			$result = mysqli_query($conn, $sql);
 							
 			while($row = mysqli_fetch_assoc($result)){#125120
 				$classTime = $row['Start_Time'];
 				$startTime = strtotime($classTime);
-				
 
-				if ($timestamp <= ($startTime + 900) && $timestamp >= ($startTime - 900)){	# check if they are on time
+				if ($timestamp <= ($startTime) && $timestamp >= ($startTime - 900)){	# check if they are on time
+					
 					$onTime = true;
 				}
 					
@@ -110,15 +111,23 @@
 		else{
 			exit('No classes today');
 			
-		}
-			
+		}	
 			if ($onTime){	# if on time add 1 to present on sql database
 				echo'You are on time <br>';
+				$sql = "SELECT Class_ID FROM class_t WHERE Student_ID = '$student_id' AND Day = '$currentday' AND Start_Time >= '$timestamp' + 001500 AND End_Time <= '$timestamp'"; #check sthe lecture a student has
+				$result = mysqli_query($conn, $sql);
+					
+				while($row = mysqli_fetch_assoc($result)){
+					$classID = $row['Class_ID'];					
 		
 				$sql = "UPDATE attendance_t SET Present = Present + 1 WHERE Student_ID = '$student_id'";
 			 	mysqli_query($conn, $sql);
+				
+				
+				$sql = "UPDATE class_t SET Attended = 1 WHERE Class_ID = '$classID'";
+				mysqli_query($conn, $sql);
 				exit('You attendance has been updated');
-			}	
+			}}	
 				
 			else{		# if not on time check if they are late
 				$sql = "SELECT End_Time FROM class_t WHERE Student_ID = '$student_id' AND Day = '$currentday'";
@@ -137,9 +146,16 @@
 				}
 			}
 			if($isLate){
+				$sql = "SELECT Class_ID FROM class_t WHERE Student_ID = '$student_id' AND Day = '$currentday' AND Start_Time >= '$timestamp' + 001500 AND End_Time <= '$timestamp'"; #check sthe lecture a student has
+				$result = mysqli_query($conn, $sql);
+				
 				echo'You are late <br>';
 				$sql = "UPDATE attendance_t SET Late = Late + 1 WHERE Student_ID = '$student_id'";
 				mysqli_query($conn, $sql);
+				
+				$sql = "UPDATE class_t SET Attended = 1 WHERE Class_ID = '$classID'";
+				mysqli_query($conn, $sql);
+				
 				exit('Your attendance has been updated');				
 			}
 			
@@ -147,5 +163,3 @@
     ?>
   </body>
 </html>
-
-
