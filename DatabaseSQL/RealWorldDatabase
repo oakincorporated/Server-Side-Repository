@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2019 at 03:27 AM
+-- Generation Time: Mar 31, 2019 at 03:27 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -41,10 +41,10 @@ CREATE TABLE `attendance_t` (
 --
 
 INSERT INTO `attendance_t` (`Student_ID`, `NFC_ID`, `Present`, `Late`, `Absent`) VALUES
-(7649394, '56:F9:P0:32:H6:T4:G7', 11, 7, 0),
-(7735596, '05:E5:G7:91:F6:O9:67', 1, 0, 1),
-(7852973, 'I8:90:H6:Y6:45:D2:G7', 1, 0, 0),
-(8746354, '9I:H4:0K:NO:H8:7T:G4', 1, 0, 0);
+(7649394, '56:F9:P0:32:H6:T4:G7', 0, 0, 0),
+(7735596, '05:E5:G7:91:F6:O9:67', 0, 0, 0),
+(7852973, 'I8:90:H6:Y6:45:D2:G7', 0, 0, 0),
+(8746354, '9I:H4:0K:NO:H8:7T:G4', 0, 0, 0);
 
 -- --------------------------------------------------------
 
