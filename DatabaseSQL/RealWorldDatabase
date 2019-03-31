@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2019 at 04:41 PM
+-- Generation Time: Mar 31, 2019 at 03:27 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -41,7 +41,7 @@ CREATE TABLE `attendance_t` (
 --
 
 INSERT INTO `attendance_t` (`Student_ID`, `NFC_ID`, `Present`, `Late`, `Absent`) VALUES
-(7649394, '56:F9:P0:32:H6:T4:G7', 7, 2, 0),
+(7649394, '56:F9:P0:32:H6:T4:G7', 11, 7, 0),
 (7735596, '05:E5:G7:91:F6:O9:67', 1, 0, 1),
 (7852973, 'I8:90:H6:Y6:45:D2:G7', 1, 0, 0),
 (8746354, '9I:H4:0K:NO:H8:7T:G4', 1, 0, 0);
@@ -69,11 +69,11 @@ CREATE TABLE `class_t` (
 --
 
 INSERT INTO `class_t` (`Class_ID`, `Student_ID`, `Module_ID`, `Lecturer_ID`, `Day`, `Start_Time`, `End_Time`, `Room`, `Attended`) VALUES
-(4, 7735596, '206CDE', 800, 1, '14:00:00', '16:00:00', 'EC2-02', 0),
-(6, 7735596, '203CDE', 560, 2, '14:00:00', '16:00:00', 'ECG-14', 0),
-(7, 7649394, '405FG', 670, 1, '10:00:00', '12:00:00', 'ECG-10', 1),
 (2, 7852973, '283DF', 330, 2, '12:00:00', '14:00:00', 'FG2-13', 0),
 (3, 7852973, '276CF', 670, 4, '13:00:00', '15:00:00', 'FG1-12', 0),
+(4, 7735596, '206CDE', 800, 1, '14:00:00', '16:00:00', 'EC2-02', 0),
+(6, 7735596, '203CDE', 560, 2, '14:00:00', '16:00:00', 'ECG-14', 0),
+(7, 7649394, '405FG', 670, 1, '10:00:00', '12:00:00', 'ECG-10', 0),
 (9, 7649394, '254HN', 420, 3, '09:00:00', '11:00:00', 'JH1-02', 0),
 (11, 8746354, '202FD', 550, 5, '16:00:00', '18:00:00', 'JH1-07', 0),
 (13, 8746354, '205SC', 580, 2, '15:00:00', '17:00:00', 'JH3-05', 0);
@@ -200,6 +200,12 @@ INSERT INTO `user_login_data` (`Username`, `Password`) VALUES
 --
 ALTER TABLE `attendance_t`
   ADD PRIMARY KEY (`Student_ID`);
+
+--
+-- Indexes for table `class_t`
+--
+ALTER TABLE `class_t`
+  ADD PRIMARY KEY (`Class_ID`);
 
 --
 -- Indexes for table `entry_t`
