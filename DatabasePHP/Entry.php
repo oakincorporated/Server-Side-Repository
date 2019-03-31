@@ -26,7 +26,7 @@
 	  #$currentTime = date('His'); # real timestamp
 	  #$currentday = date("N");
 	  
-	  $currentTime = 100000;		# demo timestamps
+	  $currentTime = 103000;		# demo timestamps
 	  
 	  $currentday = 1;
 	  
@@ -187,7 +187,7 @@
 				}
 			}
 			
-      # PARAMETERS - ?nfcid=56:F9:P0:32:H6:T4:G7&studid=7649394
+      # PARAMETERS - entry.php?nfcid=56:F9:P0:32:H6:T4:G7&studid=7649394
     ?>
   </body>
 </html>
